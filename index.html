@@ -111,6 +111,18 @@
       transform: translateY(-2px);
     }
 
+    /* ---------- FILE HEADER (OPEN FILE 1, 2, 3...) ---------- */
+    .file-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: #8a7a68;
+      letter-spacing: 0.4em;
+      border-bottom: 2px solid rgba(180, 160, 130, 0.4);
+      padding-bottom: 0.6rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
     .sys-text {
       font-family: 'Courier New', Courier, monospace;
       font-size: 0.95rem;
@@ -129,16 +141,6 @@
       color: #4a3f32;
       text-shadow: 0 2px 8px rgba(180, 160, 130, 0.4);
       margin-bottom: 0.3rem;
-    }
-
-    .door-label {
-      font-family: 'Courier New', monospace;
-      color: #8a7a68;
-      letter-spacing: 0.4em;
-      font-size: 0.95rem;
-      border-bottom: 2px solid rgba(180, 160, 130, 0.4);
-      padding-bottom: 0.6rem;
-      text-transform: uppercase;
     }
 
     .cipher {
@@ -243,6 +245,46 @@
     .coord-row .input-label {
       min-width: 3rem;
       font-size: 1.3rem;
+    }
+
+    /* ---------- LETTER BOXES (PARIS) ---------- */
+    .letter-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 0.5rem 0;
+    }
+
+    .letter-box {
+      width: 56px;
+      height: 64px;
+      background: rgba(255, 250, 242, 0.85);
+      border: 2px solid rgba(180, 160, 130, 0.6);
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #4a3f32;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      transition: all 0.25s ease;
+      outline: none;
+      box-shadow: inset 0 2px 6px rgba(150, 130, 100, 0.08);
+      caret-color: #b8a88a;
+    }
+
+    .letter-box:focus {
+      border-color: #b8a88a;
+      background: rgba(255, 252, 248, 0.98);
+      box-shadow: 0 0 18px rgba(200, 170, 130, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .letter-box.filled {
+      border-color: #a89878;
+      background: rgba(240, 230, 212, 0.95);
     }
 
     .message-area {
@@ -440,7 +482,6 @@
       text-transform: uppercase;
     }
 
-    /* fixed-size wrapper so the QR never blows up */
     .qr-wrapper {
       width: 220px;
       height: 220px;
@@ -532,6 +573,18 @@
       .final-reveal .line {
         font-size: 1rem;
       }
+      .letter-box {
+        width: 44px;
+        height: 52px;
+        font-size: 1.3rem;
+      }
+      .letter-row {
+        gap: 0.4rem;
+      }
+      .file-label {
+        font-size: 0.85rem;
+        letter-spacing: 0.3em;
+      }
     }
   </style>
 </head>
@@ -544,40 +597,65 @@
 
 <div class="app" id="app">
 
-  <!-- ================= STAGE 1 ================= -->
-  <div id="stage1" class="stage">
+  <!-- ================= FILE 1 ================= -->
+  <div id="file1" class="stage">
     <div class="card">
+      <div class="file-label">OPEN FILE 1</div>
       <div class="sys-text" style="text-align:center;">INITIAL TRANSMISSION:</div>
       <div class="cipher">ORRN DW WKH EHJLQQLQJ</div>
       <div class="sys-text" style="text-align:center; margin-bottom:0.5rem;">DECRYPT IT.</div>
       <div class="input-group">
-        <input type="text" id="stage1Input" placeholder="ENTER THE DECRYPTED MESSAGE HERE" autocomplete="off" spellcheck="false">
-        <button class="btn" id="stage1Btn">UNLOCK</button>
+        <input type="text" id="file1Input" placeholder="ENTER THE DECRYPTED MESSAGE HERE" autocomplete="off" spellcheck="false">
+        <button class="btn" id="file1Btn">UNLOCK</button>
       </div>
-      <div id="stage1Message" class="message-area"></div>
+      <div id="file1Message" class="message-area"></div>
     </div>
   </div>
 
-  <!-- ================= STAGE 2 ================= -->
-  <div id="stage2" class="stage">
+  <!-- ================= FILE 2 ================= -->
+  <div id="file2" class="stage">
     <div class="card">
+      <div class="file-label">OPEN FILE 2</div>
+      <div class="sys-text" style="text-align:center; margin:0.5rem 0;">ENTER THE SENTENCE.</div>
+      <div class="input-group" style="margin-top:0.8rem;">
+        <input type="text" id="file2Input" placeholder="ENTER THE SENTENCE" autocomplete="off" spellcheck="false">
+        <button class="btn" id="file2Btn">VERIFY</button>
+      </div>
+      <div id="file2Message" class="message-area"></div>
+    </div>
+  </div>
+
+  <!-- ================= FILE 3 ================= -->
+  <div id="file3" class="stage">
+    <div class="card">
+      <div class="file-label">OPEN FILE 3</div>
       <div class="sys-text" style="text-align:center; margin:0.5rem 0;">ENTER THE NUMBERS.</div>
       <div class="input-group" style="margin-top:0.8rem;">
         <div class="coord-row">
           <span class="input-label">N</span>
-          <input type="text" id="stage2N" placeholder="LATITUDE" autocomplete="off" spellcheck="false">
+          <input type="text" id="file3N" placeholder="LATITUDE" autocomplete="off" spellcheck="false">
         </div>
         <div class="coord-row">
           <span class="input-label">E</span>
-          <input type="text" id="stage2E" placeholder="LONGITUDE" autocomplete="off" spellcheck="false">
+          <input type="text" id="file3E" placeholder="LONGITUDE" autocomplete="off" spellcheck="false">
         </div>
-        <button class="btn" id="stage2Btn">VERIFY COORDINATES</button>
       </div>
-      <div id="stage2Message" class="message-area"></div>
+
+      <div class="sys-text" style="text-align:center; margin:0.6rem 0 0.2rem;">NOW ENTER THE PLACE.</div>
+      <div class="letter-row" id="placeRow">
+        <input type="text" maxlength="1" class="letter-box" data-index="0" autocomplete="off" spellcheck="false">
+        <input type="text" maxlength="1" class="letter-box" data-index="1" autocomplete="off" spellcheck="false">
+        <input type="text" maxlength="1" class="letter-box" data-index="2" autocomplete="off" spellcheck="false">
+        <input type="text" maxlength="1" class="letter-box" data-index="3" autocomplete="off" spellcheck="false">
+        <input type="text" maxlength="1" class="letter-box" data-index="4" autocomplete="off" spellcheck="false">
+      </div>
+
+      <button class="btn" id="file3Btn">VERIFY</button>
+      <div id="file3Message" class="message-area"></div>
     </div>
   </div>
 
-  <!-- ================= REWARD PAGE (after coordinates) ================= -->
+  <!-- ================= REWARD PAGE ================= -->
   <div id="reward1" class="stage">
     <div class="card reward-card">
       <div class="big-title">YOU DID WELL SO FAR.</div>
@@ -590,31 +668,32 @@
     </div>
   </div>
 
-  <!-- ================= STAGE 3 ================= -->
-  <div id="stage3" class="stage">
+  <!-- ================= FILE 4 ================= -->
+  <div id="file4" class="stage">
     <div class="card">
+      <div class="file-label">OPEN FILE 4</div>
       <div class="sys-text" style="text-align:center; margin:0.5rem 0;">ENTER THE WORD.</div>
       <div class="input-group" style="margin-top:0.8rem;">
-        <input type="text" id="stage3Input" placeholder="ENTER THE WORD" autocomplete="off" spellcheck="false">
-        <button class="btn" id="stage3Btn">VERIFY</button>
+        <input type="text" id="file4Input" placeholder="ENTER THE WORD" autocomplete="off" spellcheck="false">
+        <button class="btn" id="file4Btn">VERIFY</button>
       </div>
-      <div id="stage3Message" class="message-area"></div>
+      <div id="file4Message" class="message-area"></div>
     </div>
   </div>
 
-  <!-- ================= STAGE 4 — FINAL DOOR ================= -->
-  <div id="stage4" class="stage">
+  <!-- ================= FILE 5 — FINAL DOOR ================= -->
+  <div id="file5" class="stage">
     <div class="card">
-      <div class="door-label">FINAL DOOR</div>
+      <div class="file-label">OPEN FILE 5</div>
       <div class="sys-text" style="font-size:1.05rem;">YOU HAVE REACHED THE LAST DOOR.</div>
       <div class="sys-text">THERE IS NOWHERE ELSE TO GO.</div>
       <div class="sys-text">ENTER THE FINAL KEY.</div>
       <div class="input-group">
-        <input type="password" id="stage4Input" placeholder="ENTER THE NAME" autocomplete="off" spellcheck="false">
-        <button class="btn" id="stage4Btn">ENTER</button>
+        <input type="password" id="file5Input" placeholder="ENTER THE NAME" autocomplete="off" spellcheck="false">
+        <button class="btn" id="file5Btn">ENTER</button>
       </div>
-      <div id="stage4Message" class="message-area"></div>
-      <div id="stage4Loader" style="display:none; width:100%; margin-top:1.5rem;">
+      <div id="file5Message" class="message-area"></div>
+      <div id="file5Loader" style="display:none; width:100%; margin-top:1.5rem;">
         <div class="loading-bar"><div class="loading-fill" id="loadingFill"></div></div>
       </div>
     </div>
@@ -623,7 +702,7 @@
   <!-- ================= FINAL PAGE ================= -->
   <div id="finalPage" class="stage">
     <div class="card final-reveal">
-      <div class="big-title" style="font-size:1.7rem;">THE FOUR DOORS HAVE BEEN OPENED.</div>
+      <div class="big-title" style="font-size:1.7rem;">THE FIVE DOORS HAVE BEEN OPENED.</div>
       <div class="line">YOU FOLLOWED EVERY CLUE.</div>
       <div class="line">YOU FOUND EVERY KEY.</div>
       <div class="line">THERE WAS NEVER A LOCK.</div>
@@ -658,38 +737,16 @@
   (function(){
     // ---------- CENTRALIZED ANSWERS ----------
     const answers = {
-      stage1: "LOOK AT THE BEGINNING",
-      stage2N: "48.8584",
-      stage2E: "2.2945",
-      stage3: "EMPRESS",
-      stage4: "BLACKPEARL"
+      file1: "LOOK AT THE BEGINNING",
+      file2: "FIND THE NUMBERS",
+      file3N: "48.8584",
+      file3E: "2.2945",
+      file3Place: "PARIS",
+      file4: "EMPRESS",
+      file5: "BLACKPEARL"
     };
 
-    // ---------- PROGRESS STATE ----------
-    let progress = {
-      stage1Complete: false,
-      stage2Complete: false,
-      reward1Seen: false,
-      stage3Complete: false,
-      stage4Complete: false
-    };
-
-    function loadProgress() {
-      try {
-        const saved = localStorage.getItem('arg_progress_fourdoors');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          progress = { ...progress, ...parsed };
-        }
-      } catch (e) { /* ignore */ }
-    }
-
-    function saveProgress() {
-      try {
-        localStorage.setItem('arg_progress_fourdoors', JSON.stringify(progress));
-      } catch (e) { /* ignore */ }
-    }
-
+    // ---------- HELPERS ----------
     function normalize(str) {
       return str.trim().toUpperCase();
     }
@@ -698,15 +755,6 @@
       document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
       const el = document.getElementById(stageId);
       if (el) el.classList.add('active');
-    }
-
-    function navigateToCurrentStage() {
-      if (progress.stage4Complete) { showStage('finalPage'); return; }
-      if (progress.stage3Complete) { showStage('stage4'); return; }
-      if (progress.reward1Seen) { showStage('stage3'); return; }
-      if (progress.stage2Complete) { showStage('reward1'); return; }
-      if (progress.stage1Complete) { showStage('stage2'); return; }
-      showStage('stage1');
     }
 
     function setMessage(elementId, text, isSuccess = false) {
@@ -752,44 +800,122 @@
       playDoorAnimation(() => { transitionToStage(stageId); });
     }
 
-    // ---------- STAGE 1 ----------
-    function initStage1() {
-      const input = document.getElementById('stage1Input');
-      const btn = document.getElementById('stage1Btn');
+    // ---------- FILE 1 ----------
+    function initFile1() {
+      const input = document.getElementById('file1Input');
+      const btn = document.getElementById('file1Btn');
       btn.addEventListener('click', () => {
         const val = normalize(input.value);
-        if (val === answers.stage1) {
-          setMessage('stage1Message', 'ACCESS GRANTED.\nTHE FIRST DOOR OPENS.', true);
-          progress.stage1Complete = true;
-          saveProgress();
-          setTimeout(() => { doorTransitionTo('stage2'); }, 1200);
+        if (val === answers.file1) {
+          setMessage('file1Message', 'ACCESS GRANTED.\nFILE 1 OPENED.', true);
+          setTimeout(() => { doorTransitionTo('file2'); }, 1200);
         } else {
-          setMessage('stage1Message', 'ACCESS DENIED.\nTRY AGAIN.');
+          setMessage('file1Message', 'ACCESS DENIED.\nTRY AGAIN.');
           input.value = '';
         }
       });
       input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
     }
 
-    // ---------- STAGE 2 ----------
-    function initStage2() {
-      const inputN = document.getElementById('stage2N');
-      const inputE = document.getElementById('stage2E');
-      const btn = document.getElementById('stage2Btn');
+    // ---------- FILE 2 ----------
+    function initFile2() {
+      const input = document.getElementById('file2Input');
+      const btn = document.getElementById('file2Btn');
+      btn.addEventListener('click', () => {
+        const val = normalize(input.value);
+        if (val === answers.file2) {
+          setMessage('file2Message', 'ACCESS GRANTED.\nFILE 2 OPENED.', true);
+          setTimeout(() => { doorTransitionTo('file3'); }, 1200);
+        } else {
+          setMessage('file2Message', 'ACCESS DENIED.\nTRY AGAIN.');
+          input.value = '';
+        }
+      });
+      input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
+    }
+
+    // ---------- FILE 3 ----------
+    function initFile3() {
+      const inputN = document.getElementById('file3N');
+      const inputE = document.getElementById('file3E');
+      const btn = document.getElementById('file3Btn');
+      const letterBoxes = document.querySelectorAll('#placeRow .letter-box');
+
+      // Letter box behaviour: auto-advance, backspace jumps back, paste support
+      letterBoxes.forEach((box, idx) => {
+        box.addEventListener('input', (e) => {
+          const val = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase();
+          e.target.value = val;
+          if (val) {
+            e.target.classList.add('filled');
+            if (idx < letterBoxes.length - 1) {
+              letterBoxes[idx + 1].focus();
+            }
+          } else {
+            e.target.classList.remove('filled');
+          }
+        });
+
+        box.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+            letterBoxes[idx - 1].focus();
+            letterBoxes[idx - 1].value = '';
+            letterBoxes[idx - 1].classList.remove('filled');
+          }
+          if (e.key === 'ArrowLeft' && idx > 0) {
+            letterBoxes[idx - 1].focus();
+          }
+          if (e.key === 'ArrowRight' && idx < letterBoxes.length - 1) {
+            letterBoxes[idx + 1].focus();
+          }
+          if (e.key === 'Enter') {
+            btn.click();
+          }
+        });
+
+        box.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const pasted = (e.clipboardData || window.clipboardData).getData('text');
+          const letters = pasted.replace(/[^a-zA-Z]/g, '').toUpperCase().split('');
+          letters.forEach((ch, i) => {
+            if (idx + i < letterBoxes.length) {
+              letterBoxes[idx + i].value = ch;
+              letterBoxes[idx + i].classList.add('filled');
+            }
+          });
+          const nextEmpty = Math.min(idx + letters.length, letterBoxes.length - 1);
+          letterBoxes[nextEmpty].focus();
+        });
+      });
+
       btn.addEventListener('click', () => {
         const nNorm = inputN.value.trim().replace(/\s/g, '');
         const eNorm = inputE.value.trim().replace(/\s/g, '');
-        if (nNorm === answers.stage2N && eNorm === answers.stage2E) {
-          setMessage('stage2Message', 'COORDINATES VERIFIED.\nTHE LOCATION HAS BEEN IDENTIFIED.', true);
-          progress.stage2Complete = true;
-          saveProgress();
+        const place = Array.from(letterBoxes).map(b => b.value.toUpperCase()).join('');
+
+        const coordsOk = (nNorm === answers.file3N && eNorm === answers.file3E);
+        const placeOk  = (place === answers.file3Place);
+
+        if (coordsOk && placeOk) {
+          setMessage('file3Message', 'LOCATION VERIFIED.\nTHE COORDINATES HAVE BEEN IDENTIFIED.', true);
           setTimeout(() => { doorTransitionTo('reward1'); }, 1200);
-        } else {
-          setMessage('stage2Message', 'COORDINATES REJECTED.');
+        } else if (!coordsOk && !placeOk) {
+          setMessage('file3Message', 'COORDINATES AND PLACE REJECTED.');
           inputN.value = '';
           inputE.value = '';
+          letterBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); });
+          letterBoxes[0].focus();
+        } else if (!coordsOk) {
+          setMessage('file3Message', 'COORDINATES REJECTED.');
+          inputN.value = '';
+          inputE.value = '';
+        } else {
+          setMessage('file3Message', 'PLACE REJECTED.');
+          letterBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); });
+          letterBoxes[0].focus();
         }
       });
+
       [inputN, inputE].forEach(inp => {
         inp.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
       });
@@ -799,41 +925,37 @@
     function initReward1() {
       const btn = document.getElementById('reward1Btn');
       btn.addEventListener('click', () => {
-        progress.reward1Seen = true;
-        saveProgress();
-        doorTransitionTo('stage3');
+        doorTransitionTo('file4');
       });
     }
 
-    // ---------- STAGE 3 ----------
-    function initStage3() {
-      const input = document.getElementById('stage3Input');
-      const btn = document.getElementById('stage3Btn');
+    // ---------- FILE 4 ----------
+    function initFile4() {
+      const input = document.getElementById('file4Input');
+      const btn = document.getElementById('file4Btn');
       btn.addEventListener('click', () => {
         const val = normalize(input.value);
-        if (val === answers.stage3) {
-          setMessage('stage3Message', 'ACCESS GRANTED.\nTHE THIRD DOOR OPENS.', true);
-          progress.stage3Complete = true;
-          saveProgress();
-          setTimeout(() => { doorTransitionTo('stage4'); }, 1200);
+        if (val === answers.file4) {
+          setMessage('file4Message', 'ACCESS GRANTED.\nFILE 4 OPENED.', true);
+          setTimeout(() => { doorTransitionTo('file5'); }, 1200);
         } else {
-          setMessage('stage3Message', 'ACCESS DENIED.');
+          setMessage('file4Message', 'ACCESS DENIED.');
           input.value = '';
         }
       });
       input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
     }
 
-    // ---------- STAGE 4 ----------
-    function initStage4() {
-      const input = document.getElementById('stage4Input');
-      const btn = document.getElementById('stage4Btn');
-      const msg = document.getElementById('stage4Message');
-      const loader = document.getElementById('stage4Loader');
+    // ---------- FILE 5 ----------
+    function initFile5() {
+      const input = document.getElementById('file5Input');
+      const btn = document.getElementById('file5Btn');
+      const msg = document.getElementById('file5Message');
+      const loader = document.getElementById('file5Loader');
       const fill = document.getElementById('loadingFill');
       btn.addEventListener('click', () => {
         const val = normalize(input.value);
-        if (val === answers.stage4) {
+        if (val === answers.file5) {
           msg.textContent = '';
           loader.style.display = 'block';
           fill.style.width = '0%';
@@ -846,28 +968,28 @@
                 clearInterval(interval);
                 msg.innerHTML = 'IDENTITY VERIFIED<br>ACCESS GRANTED<br>WELCOME.';
                 msg.classList.add('success-glow');
-                progress.stage4Complete = true;
-                saveProgress();
                 setTimeout(() => { transitionToStage('finalPage'); }, 2000);
               }
             }, 50);
           });
         } else {
-          setMessage('stage4Message', 'FINAL ACCESS DENIED.');
+          setMessage('file5Message', 'FINAL ACCESS DENIED.');
           input.value = '';
         }
       });
       input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
     }
 
+    // ---------- INIT ----------
     function init() {
-      loadProgress();
-      initStage1();
-      initStage2();
+      initFile1();
+      initFile2();
+      initFile3();
       initReward1();
-      initStage3();
-      initStage4();
-      navigateToCurrentStage();
+      initFile4();
+      initFile5();
+      // Always start at File 1 — no localStorage
+      showStage('file1');
     }
 
     document.addEventListener('DOMContentLoaded', init);
