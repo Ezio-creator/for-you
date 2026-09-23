@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>CLASSIFIED FILE · EYES ONLY</title>
+  <style>
+    /* ---------- BEIGE / LIVELY CINEMATIC ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5efe6;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(220, 200, 170, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(200, 180, 150, 0.25) 0%, transparent 50%),
+        linear-gradient(135deg, #f7f2e9 0%, #ede4d6 100%);
+      min-height: 100vh;
+      font-family: 'Courier New', Courier, monospace;
+      color: #4a3f32;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+      letter-spacing: 0.04em;
+      transition: background 0.6s ease;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC42IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNiIgLz48L3N2Zz4=');
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 999;
+      mix-blend-mode: multiply;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, rgba(255, 245, 225, 0.6) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(230, 210, 180, 0.4) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatLight 25s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatLight {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+      100% { transform: scale(1.2) translate(-2%, -1%); opacity: 1; }
+    }
+
+    .app {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      padding: 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease;
+    }
+
+    .stage {
+      display: none;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stage.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(255, 250, 242, 0.78);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(180, 160, 130, 0.5);
+      box-shadow: 0 10px 40px rgba(150, 130, 100, 0.15), 0 4px 20px rgba(120, 100, 70, 0.1);
+      padding: 2.5rem 2rem;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 14px 50px rgba(150, 130, 100, 0.25), 0 6px 25px rgba(120, 100, 70, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .sys-text {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.95rem;
+      color: #7a6a58;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      line-height: 1.9;
+    }
+
+    .big-title {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #4a3f32;
+      text-shadow: 0 2px 8px rgba(180, 160, 130, 0.4);
+      margin-bottom: 0.3rem;
+    }
+
+    .door-label {
+      font-family: 'Courier New', monospace;
+      color: #8a7a68;
+      letter-spacing: 0.4em;
+      font-size: 0.95rem;
+      border-bottom: 2px solid rgba(180, 160, 130, 0.4);
+      padding-bottom: 0.6rem;
+      text-transform: uppercase;
+    }
+
+    .cipher {
+      font-family: 'Courier New', monospace;
+      font-size: 1.5rem;
+      letter-spacing: 0.4em;
+      text-align: center;
+      color: #5a4a3a;
+      padding: 1.2rem 0;
+      text-shadow: 0 0 10px rgba(200, 170, 130, 0.5);
+      word-break: break-word;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 0.3rem 0;
+    }
+
+    .input-label {
+      font-family: 'Courier New', monospace;
+      color: #7a6a58;
+      font-size: 1.1rem;
+      min-width: 2.5rem;
+      text-align: right;
+      letter-spacing: 0.1em;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      flex: 1;
+      background: rgba(255, 250, 242, 0.85);
+      border: 1px solid rgba(180, 160, 130, 0.6);
+      padding: 1rem 1.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 1.2rem;
+      color: #4a3f32;
+      text-align: center;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+      outline: none;
+      border-radius: 4px;
+      width: 100%;
+      min-width: 0;
+      box-shadow: inset 0 2px 6px rgba(150, 130, 100, 0.08);
+    }
+
+    input:focus {
+      border-color: #b8a88a;
+      box-shadow: 0 0 18px rgba(200, 170, 130, 0.4), inset 0 2px 6px rgba(150, 130, 100, 0.1);
+      background: rgba(255, 252, 248, 0.95);
+    }
+
+    input::placeholder {
+      color: #b0a090;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      background: rgba(255, 250, 242, 0.6);
+      border: 2px solid rgba(180, 160, 130, 0.7);
+      color: #5a4a3a;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      padding: 1rem 1.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 300px;
+      align-self: center;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(150, 130, 100, 0.15);
+    }
+
+    .btn:hover {
+      background: rgba(230, 215, 190, 0.9);
+      border-color: #a89878;
+      box-shadow: 0 6px 20px rgba(150, 130, 100, 0.3);
+      color: #3a2f22;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: scale(0.98) translateY(0);
+    }
+
+    .coord-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+
+    .coord-row .input-label {
+      min-width: 3rem;
+      font-size: 1.3rem;
+    }
+
+    .message-area {
+      min-height: 3.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #7a6a58;
+      padding: 0.4rem 0;
+      transition: all 0.2s;
+    }
+
+    .glitch {
+      animation: glitch-anim 0.3s linear;
+    }
+
+    @keyframes glitch-anim {
+      0% { transform: translate(0); opacity: 1; }
+      20% { transform: translate(-3px, 2px); opacity: 0.8; text-shadow: 2px 0 #c44, -2px 0 #48a; }
+      40% { transform: translate(3px, -2px); opacity: 0.9; text-shadow: -2px 0 #c44, 2px 0 #48a; }
+      60% { transform: translate(-2px, 1px); opacity: 0.7; }
+      80% { transform: translate(2px, -1px); opacity: 0.9; }
+      100% { transform: translate(0); opacity: 1; }
+    }
+
+    .success-glow {
+      color: #7a9a6a;
+      text-shadow: 0 0 12px rgba(130, 180, 110, 0.6), 0 0 24px rgba(100, 150, 80, 0.3);
+    }
+
+    /* ---------- REWARD PAGE ---------- */
+    .reward-card {
+      text-align: center;
+    }
+
+    .reward-card .big-title {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .reward-box {
+      margin: 1.5rem 0;
+      padding: 2.5rem 2rem;
+      border: 2px dashed rgba(180, 160, 130, 0.6);
+      background: rgba(255, 250, 242, 0.55);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.4s ease;
+    }
+
+    .reward-box:hover {
+      background: rgba(255, 252, 245, 0.85);
+      border-color: #b8a88a;
+      box-shadow: 0 0 30px rgba(200, 170, 130, 0.3);
+    }
+
+    .reward-icon {
+      font-family: 'Georgia', serif;
+      font-size: 3rem;
+      color: #b8a88a;
+      text-shadow: 0 0 20px rgba(200, 170, 130, 0.6);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .reward-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #8a7a68;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    /* ---------- DOOR OPENING ANIMATION ---------- */
+    .door-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      pointer-events: none;
+      display: none;
+    }
+
+    .door-overlay.active {
+      display: block;
+    }
+
+    .door-half {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, #e8dcc8 0%, #d8c8b0 100%);
+      box-shadow: inset 0 0 40px rgba(150, 130, 100, 0.3);
+      transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(160, 140, 110, 0.4);
+    }
+
+    .door-left {
+      left: 0;
+      transform-origin: left center;
+      border-right: 2px solid rgba(160, 140, 110, 0.5);
+      background: linear-gradient(90deg, #e8dcc8 0%, #d8c8b0 100%);
+    }
+
+    .door-right {
+      right: 0;
+      transform-origin: right center;
+      border-left: 2px solid rgba(160, 140, 110, 0.5);
+      background: linear-gradient(-90deg, #e8dcc8 0%, #d8c8b0 100%);
+    }
+
+    .door-overlay.active .door-left {
+      transform: perspective(1200px) rotateY(-85deg);
+    }
+
+    .door-overlay.active .door-right {
+      transform: perspective(1200px) rotateY(85deg);
+    }
+
+    .door-light {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255, 245, 220, 0.9) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease 0.3s;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    .door-overlay.active .door-light {
+      opacity: 1;
+    }
+
+    /* ---------- FINAL PAGE ---------- */
+    .final-reveal {
+      font-family: 'Georgia', serif;
+      text-align: center;
+    }
+
+    .final-reveal .line {
+      font-size: 1.15rem;
+      letter-spacing: 0.15em;
+      line-height: 2.2;
+      color: #5a4a3a;
+    }
+
+    /* ---------- QR FINAL DOOR SECTION ---------- */
+    .qr-section {
+      margin: 2.5rem 0 1rem;
+      padding: 2rem 1.5rem;
+      border: 2px dashed rgba(180, 160, 130, 0.6);
+      background: rgba(255, 250, 242, 0.6);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      transition: all 0.4s ease;
+    }
+
+    .qr-section:hover {
+      background: rgba(255, 252, 245, 0.85);
+      border-color: #b8a88a;
+      box-shadow: 0 0 30px rgba(200, 170, 130, 0.3);
+    }
+
+    .qr-title {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #4a3f32;
+      text-shadow: 0 2px 8px rgba(180, 160, 130, 0.4);
+    }
+
+    .qr-sub {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #8a7a68;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .qr-image {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      border: 6px solid rgba(255, 250, 242, 0.9);
+      box-shadow: 0 8px 30px rgba(150, 130, 100, 0.25);
+      border-radius: 4px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      image-rendering: pixelated;
+    }
+
+    .qr-image:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 40px rgba(150, 130, 100, 0.35);
+    }
+
+    .loading-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(180, 160, 130, 0.3);
+      margin: 1.5rem 0;
+      overflow: hidden;
+      border-radius: 3px;
+    }
+
+    .loading-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #b8a88a, #8a7a68);
+      box-shadow: 0 0 15px rgba(180, 160, 130, 0.6);
+      transition: width 0.3s ease;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 1.8rem 1.2rem;
+      }
+      .big-title {
+        font-size: 1.5rem;
+      }
+      .sys-text {
+        font-size: 0.8rem;
+      }
+      input[type="text"], input[type="password"] {
+        font-size: 1rem;
+        padding: 0.9rem;
+      }
+      .btn {
+        font-size: 0.9rem;
+        padding: 0.9rem;
+        letter-spacing: 0.15em;
+      }
+      .coord-row .input-label {
+        font-size: 1rem;
+        min-width: 2rem;
+      }
+      .input-label {
+        font-size: 0.9rem;
+      }
+      .cipher {
+        font-size: 1.1rem;
+        letter-spacing: 0.25em;
+      }
+      .reward-icon {
+        font-size: 2.2rem;
+      }
+      .qr-title {
+        font-size: 1.1rem;
+      }
+      .qr-image {
+        max-width: 220px;
+      }
+      .final-reveal .line {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="door-overlay" id="doorOverlay">
+  <div class="door-half door-left"></div>
+  <div class="door-half door-right"></div>
+  <div class="door-light"></div>
+</div>
+
+<div class="app" id="app">
+
+  <!-- ================= STAGE 1 ================= -->
+  <div id="stage1" class="stage">
+    <div class="card">
+      <div class="sys-text" style="text-align:center;">INITIAL TRANSMISSION:</div>
+      <div class="cipher">ORRN DW WKH EHJLQQLQJ</div>
+      <div class="sys-text" style="text-align:center; margin-bottom:0.5rem;">DECRYPT IT.</div>
+      <div class="input-group">
+        <input type="text" id="stage1Input" placeholder="ENTER THE DECRYPTED MESSAGE HERE" autocomplete="off" spellcheck="false">
+        <button class="btn" id="stage1Btn">UNLOCK</button>
+      </div>
+      <div id="stage1Message" class="message-area"></div>
+    </div>
+  </div>
+
+  <!-- ================= STAGE 2 ================= -->
+  <div id="stage2" class="stage">
+    <div class="card">
+      <div class="sys-text" style="text-align:center; margin:0.5rem 0;">ENTER THE NUMBERS.</div>
+      <div class="input-group" style="margin-top:0.8rem;">
+        <div class="coord-row">
+          <span class="input-label">N</span>
+          <input type="text" id="stage2N" placeholder="LATITUDE" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="coord-row">
+          <span class="input-label">E</span>
+          <input type="text" id="stage2E" placeholder="LONGITUDE" autocomplete="off" spellcheck="false">
+        </div>
+        <button class="btn" id="stage2Btn">VERIFY COORDINATES</button>
+      </div>
+      <div id="stage2Message" class="message-area"></div>
+    </div>
+  </div>
+
+  <!-- ================= REWARD PAGE (after coordinates) ================= -->
+  <div id="reward1" class="stage">
+    <div class="card reward-card">
+      <div class="big-title">YOU DID WELL SO FAR.</div>
+      <div class="sys-text" style="text-align:center; font-size:1rem;">YOU DESERVE A REWARD.</div>
+      <div class="reward-box">
+        <div class="reward-icon">✦</div>
+        <div class="reward-label">OPEN YOUR FIRST REWARD</div>
+      </div>
+      <button class="btn" id="reward1Btn">CONTINUE</button>
+    </div>
+  </div>
+
+  <!-- ================= STAGE 3 ================= -->
+  <div id="stage3" class="stage">
+    <div class="card">
+      <div class="sys-text" style="text-align:center; margin:0.5rem 0;">ENTER THE WORD.</div>
+      <div class="input-group" style="margin-top:0.8rem;">
+        <input type="text" id="stage3Input" placeholder="ENTER THE WORD" autocomplete="off" spellcheck="false">
+        <button class="btn" id="stage3Btn">VERIFY</button>
+      </div>
+      <div id="stage3Message" class="message-area"></div>
+    </div>
+  </div>
+
+  <!-- ================= STAGE 4 — FINAL DOOR ================= -->
+  <div id="stage4" class="stage">
+    <div class="card">
+      <div class="door-label">FINAL DOOR</div>
+      <div class="sys-text" style="font-size:1.05rem;">YOU HAVE REACHED THE LAST DOOR.</div>
+      <div class="sys-text">THERE IS NOWHERE ELSE TO GO.</div>
+      <div class="sys-text">ENTER THE FINAL KEY.</div>
+      <div class="input-group">
+        <input type="password" id="stage4Input" placeholder="ENTER THE NAME" autocomplete="off" spellcheck="false">
+        <button class="btn" id="stage4Btn">ENTER</button>
+      </div>
+      <div id="stage4Message" class="message-area"></div>
+      <div id="stage4Loader" style="display:none; width:100%; margin-top:1.5rem;">
+        <div class="loading-bar"><div class="loading-fill" id="loadingFill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FINAL PAGE ================= -->
+  <div id="finalPage" class="stage">
+    <div class="card final-reveal">
+      <div class="big-title" style="font-size:1.7rem;">THE FOUR DOORS HAVE BEEN OPENED.</div>
+      <div class="line">YOU FOLLOWED EVERY CLUE.</div>
+      <div class="line">YOU FOUND EVERY KEY.</div>
+      <div class="line">THERE WAS NEVER A LOCK.</div>
+      <div class="line">ONLY THE WILL TO KEEP LOOKING.</div>
+
+      <!-- ============================================= -->
+      <!-- FINAL MESSAGE / CONTENT GOES HERE            -->
+      <!-- ============================================= -->
+      <div class="qr-section">
+        <div class="qr-title">ENTER THE FINAL DOOR</div>
+        <div class="qr-sub">SCAN THE CODE TO CONTINUE</div>
+        <!-- ▼▼▼ REPLACE THE src BELOW WITH YOUR QR IMAGE ▼▼▼ -->
+        <img
+          src="images/qr.png" alt="Final Door QR Code" class="qr-image">
+          alt="Final Door QR Code"
+          class="qr-image"
+        >
+        <!-- ▲▲▲ REPLACE THE src ABOVE WITH YOUR QR IMAGE ▲▲▲ -->
+      </div>
+      <!-- ============================================= -->
+      <!-- END FINAL MESSAGE SECTION                    -->
+      <!-- ============================================= -->
+
+      <div class="sys-text" style="margin-top:1rem; font-size:0.75rem; opacity:0.5;">// END OF TRANSMISSION</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // ---------- CENTRALIZED ANSWERS ----------
+    const answers = {
+      stage1: "LOOK AT THE BEGINNING",
+      stage2N: "48.8584",
+      stage2E: "2.2945",
+      stage3: "EMPRESS",
+      stage4: "BLACKPEARL"
+    };
+
+    // ---------- PROGRESS STATE ----------
+    let progress = {
+      stage1Complete: false,
+      stage2Complete: false,
+      reward1Seen: false,
+      stage3Complete: false,
+      stage4Complete: false
+    };
+
+    function loadProgress() {
+      try {
+        const saved = localStorage.getItem('arg_progress_fourdoors');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          progress = { ...progress, ...parsed };
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem('arg_progress_fourdoors', JSON.stringify(progress));
+      } catch (e) { /* ignore */ }
+    }
+
+    function normalize(str) {
+      return str.trim().toUpperCase();
+    }
+
+    function showStage(stageId) {
+      document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
+      const el = document.getElementById(stageId);
+      if (el) el.classList.add('active');
+    }
+
+    function navigateToCurrentStage() {
+      if (progress.stage4Complete) { showStage('finalPage'); return; }
+      if (progress.stage3Complete) { showStage('stage4'); return; }
+      if (progress.reward1Seen) { showStage('stage3'); return; }
+      if (progress.stage2Complete) { showStage('reward1'); return; }
+      if (progress.stage1Complete) { showStage('stage2'); return; }
+      showStage('stage1');
+    }
+
+    function setMessage(elementId, text, isSuccess = false) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.textContent = text;
+      el.classList.remove('glitch', 'success-glow');
+      if (isSuccess) {
+        el.classList.add('success-glow');
+      } else {
+        el.classList.add('glitch');
+        setTimeout(() => el.classList.remove('glitch'), 400);
+      }
+    }
+
+    function playDoorAnimation(callback) {
+      const overlay = document.getElementById('doorOverlay');
+      overlay.classList.add('active');
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        setTimeout(() => { if (callback) callback(); }, 100);
+      }, 1000);
+    }
+
+    function transitionToStage(stageId) {
+      const currentActive = document.querySelector('.stage.active');
+      if (currentActive) currentActive.style.opacity = '0';
+      setTimeout(() => {
+        if (currentActive) {
+          currentActive.classList.remove('active');
+          currentActive.style.opacity = '';
+        }
+        const nextStage = document.getElementById(stageId);
+        if (nextStage) {
+          nextStage.classList.add('active');
+          nextStage.style.opacity = '0';
+          requestAnimationFrame(() => { nextStage.style.opacity = '1'; });
+        }
+      }, 500);
+    }
+
+    function doorTransitionTo(stageId) {
+      playDoorAnimation(() => { transitionToStage(stageId); });
+    }
+
+    // ---------- STAGE 1 ----------
+    function initStage1() {
+      const input = document.getElementById('stage1Input');
+      const btn = document.getElementById('stage1Btn');
+      btn.addEventListener('click', () => {
+        const val = normalize(input.value);
+        if (val === answers.stage1) {
+          setMessage('stage1Message', 'ACCESS GRANTED.\nTHE FIRST DOOR OPENS.', true);
+          progress.stage1Complete = true;
+          saveProgress();
+          setTimeout(() => { doorTransitionTo('stage2'); }, 1200);
+        } else {
+          setMessage('stage1Message', 'ACCESS DENIED.\nTRY AGAIN.');
+          input.value = '';
+        }
+      });
+      input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
+    }
+
+    // ---------- STAGE 2 ----------
+    function initStage2() {
+      const inputN = document.getElementById('stage2N');
+      const inputE = document.getElementById('stage2E');
+      const btn = document.getElementById('stage2Btn');
+      btn.addEventListener('click', () => {
+        const nNorm = inputN.value.trim().replace(/\s/g, '');
+        const eNorm = inputE.value.trim().replace(/\s/g, '');
+        if (nNorm === answers.stage2N && eNorm === answers.stage2E) {
+          setMessage('stage2Message', 'COORDINATES VERIFIED.\nTHE LOCATION HAS BEEN IDENTIFIED.', true);
+          progress.stage2Complete = true;
+          saveProgress();
+          setTimeout(() => { doorTransitionTo('reward1'); }, 1200);
+        } else {
+          setMessage('stage2Message', 'COORDINATES REJECTED.');
+          inputN.value = '';
+          inputE.value = '';
+        }
+      });
+      [inputN, inputE].forEach(inp => {
+        inp.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
+      });
+    }
+
+    // ---------- REWARD PAGE ----------
+    function initReward1() {
+      const btn = document.getElementById('reward1Btn');
+      btn.addEventListener('click', () => {
+        progress.reward1Seen = true;
+        saveProgress();
+        doorTransitionTo('stage3');
+      });
+    }
+
+    // ---------- STAGE 3 ----------
+    function initStage3() {
+      const input = document.getElementById('stage3Input');
+      const btn = document.getElementById('stage3Btn');
+      btn.addEventListener('click', () => {
+        const val = normalize(input.value);
+        if (val === answers.stage3) {
+          setMessage('stage3Message', 'ACCESS GRANTED.\nTHE THIRD DOOR OPENS.', true);
+          progress.stage3Complete = true;
+          saveProgress();
+          setTimeout(() => { doorTransitionTo('stage4'); }, 1200);
+        } else {
+          setMessage('stage3Message', 'ACCESS DENIED.');
+          input.value = '';
+        }
+      });
+      input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
+    }
+
+    // ---------- STAGE 4 ----------
+    function initStage4() {
+      const input = document.getElementById('stage4Input');
+      const btn = document.getElementById('stage4Btn');
+      const msg = document.getElementById('stage4Message');
+      const loader = document.getElementById('stage4Loader');
+      const fill = document.getElementById('loadingFill');
+      btn.addEventListener('click', () => {
+        const val = normalize(input.value);
+        if (val === answers.stage4) {
+          msg.textContent = '';
+          loader.style.display = 'block';
+          fill.style.width = '0%';
+          playDoorAnimation(() => {
+            let width = 0;
+            const interval = setInterval(() => {
+              width += 5;
+              fill.style.width = width + '%';
+              if (width >= 100) {
+                clearInterval(interval);
+                msg.innerHTML = 'IDENTITY VERIFIED<br>ACCESS GRANTED<br>WELCOME.';
+                msg.classList.add('success-glow');
+                progress.stage4Complete = true;
+                saveProgress();
+                setTimeout(() => { transitionToStage('finalPage'); }, 2000);
+              }
+            }, 50);
+          });
+        } else {
+          setMessage('stage4Message', 'FINAL ACCESS DENIED.');
+          input.value = '';
+        }
+      });
+      input.addEventListener('keypress', (e) => { if (e.key === 'Enter') btn.click(); });
+    }
+
+    function init() {
+      loadProgress();
+      initStage1();
+      initStage2();
+      initReward1();
+      initStage3();
+      initStage4();
+      navigateToCurrentStage();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  })();
+</script>
+</body>
+</html>
